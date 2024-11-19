@@ -99,18 +99,6 @@ public class Patients extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("LOG OUT");
 
-        jLabel17.setIcon(new javax.swing.ImageIcon("C:\\Users\\christian\\OneDrive\\Documents\\xtian 2nd year\\dental.png")); // NOI18N
-
-        jLabel18.setIcon(new javax.swing.ImageIcon("C:\\Users\\christian\\OneDrive\\Documents\\xtian 2nd year\\apmt1.png")); // NOI18N
-
-        jLabel19.setIcon(new javax.swing.ImageIcon("C:\\Users\\christian\\OneDrive\\Documents\\xtian 2nd year\\logout2.png")); // NOI18N
-
-        jLabel20.setIcon(new javax.swing.ImageIcon("C:\\Users\\christian\\OneDrive\\Documents\\xtian 2nd year\\trmnt1.png")); // NOI18N
-
-        jLabel21.setIcon(new javax.swing.ImageIcon("C:\\Users\\christian\\OneDrive\\Documents\\xtian 2nd year\\psctn1.png")); // NOI18N
-
-        jLabel22.setIcon(new javax.swing.ImageIcon("C:\\Users\\christian\\OneDrive\\Documents\\xtian 2nd year\\dash1.png")); // NOI18N
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -150,7 +138,7 @@ public class Patients extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel17))
                     .addComponent(jLabel2))
@@ -342,8 +330,6 @@ public class Patients extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(180, 230, 590, 190);
-
-        jLabel23.setIcon(new javax.swing.ImageIcon("C:\\Users\\christian\\OneDrive\\Documents\\xtian 2nd year\\bg2.jpg")); // NOI18N
         getContentPane().add(jLabel23);
         jLabel23.setBounds(180, 0, 590, 230);
 

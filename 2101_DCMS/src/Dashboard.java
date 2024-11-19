@@ -32,16 +32,17 @@ public class Dashboard extends javax.swing.JFrame {
         treatmentButton = new javax.swing.JButton();
         prescripButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        prescripButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(892, 499));
-        setPreferredSize(new java.awt.Dimension(892, 499));
+        setMinimumSize(new java.awt.Dimension(892, 574));
+        setPreferredSize(new java.awt.Dimension(892, 574));
         setResizable(false);
-        setSize(new java.awt.Dimension(892, 499));
+        setSize(new java.awt.Dimension(0, 0));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 3, true));
@@ -98,6 +99,18 @@ public class Dashboard extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\prevention.png")); // NOI18N
 
+        prescripButton1.setBackground(java.awt.Color.red);
+        prescripButton1.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
+        prescripButton1.setForeground(new java.awt.Color(255, 255, 255));
+        prescripButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\cashless-payment.png")); // NOI18N
+        prescripButton1.setText("Payment");
+        prescripButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        prescripButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prescripButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -113,8 +126,11 @@ public class Dashboard extends javax.swing.JFrame {
                             .addComponent(prescripButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
-                        .addComponent(jLabel1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(prescripButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,6 +144,8 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(treatmentButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(prescripButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(prescripButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -166,7 +184,7 @@ public class Dashboard extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(113, 113, 113)
                                 .addComponent(jLabel4)))
-                        .addContainerGap(125, Short.MAX_VALUE))
+                        .addContainerGap(88, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(257, 257, 257)
                         .addComponent(jLabel5)
@@ -176,7 +194,7 @@ public class Dashboard extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(109, Short.MAX_VALUE)
+                .addContainerGap(182, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -217,6 +235,10 @@ public class Dashboard extends javax.swing.JFrame {
     private void prescripButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_prescripButtonActionPerformed
+
+    private void prescripButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_prescripButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -264,6 +286,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton patientButton;
     private javax.swing.JButton prescripButton;
+    private javax.swing.JButton prescripButton1;
     private javax.swing.JButton treatmentButton;
     // End of variables declaration//GEN-END:variables
 }
