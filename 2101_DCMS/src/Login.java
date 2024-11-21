@@ -51,7 +51,7 @@ public class Login extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Your Smile");
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\prevention.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/prevention.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -85,7 +85,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\tooth.png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/tooth.png"))); // NOI18N
         jLabel2.setText("Dental Clinic");
 
         jLabel8.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
@@ -105,7 +105,7 @@ public class Login extends javax.swing.JFrame {
         loginButton.setBackground(java.awt.Color.red);
         loginButton.setFont(new java.awt.Font("Bahnschrift", 1, 18)); // NOI18N
         loginButton.setForeground(new java.awt.Color(255, 255, 255));
-        loginButton.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\account.png")); // NOI18N
+        loginButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/account.png"))); // NOI18N
         loginButton.setText("LOGIN");
         loginButton.setFocusable(false);
         loginButton.addActionListener(new java.awt.event.ActionListener() {

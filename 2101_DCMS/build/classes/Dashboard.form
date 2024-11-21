@@ -173,7 +173,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Nikko\Documents\Java DCMS icons\patient.png"/>
+                  <Image iconType="3" name="/Java DCMS icons/patient.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Patients"/>
                 <Property name="horizontalAlignment" type="int" value="2"/>
@@ -194,7 +194,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Nikko\Documents\Java DCMS icons\appoinment2.png"/>
+                  <Image iconType="3" name="/Java DCMS icons/appoinment2.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Appointments"/>
                 <Property name="horizontalAlignment" type="int" value="2"/>
@@ -215,7 +215,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Nikko\Documents\Java DCMS icons\syringe.png"/>
+                  <Image iconType="3" name="/Java DCMS icons/syringe.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Treatments"/>
                 <Property name="horizontalAlignment" type="int" value="2"/>
@@ -236,7 +236,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Nikko\Documents\Java DCMS icons\prescription.png"/>
+                  <Image iconType="3" name="/Java DCMS icons/prescription.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Prescriptions"/>
                 <Property name="horizontalAlignment" type="int" value="2"/>
@@ -248,7 +248,7 @@
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Nikko\Documents\Java DCMS icons\prevention.png"/>
+                  <Image iconType="3" name="/Java DCMS icons/prevention.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -264,7 +264,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\Nikko\Documents\Java DCMS icons\cashless-payment.png"/>
+                  <Image iconType="3" name="/Java DCMS icons/cashless-payment.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Payment"/>
                 <Property name="horizontalAlignment" type="int" value="2"/>
@@ -320,7 +320,7 @@
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Nikko\Documents\Java DCMS icons\dental-chair.png"/>
+              <Image iconType="3" name="/Java DCMS icons/dental-chair.png"/>
             </Property>
           </Properties>
         </Component>

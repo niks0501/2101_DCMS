@@ -60,7 +60,7 @@ public class AppointmentWin extends javax.swing.JFrame {
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
         jLabel3.setForeground(java.awt.Color.red);
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\appoinment2.png")); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/appoinment2.png"))); // NOI18N
         jLabel3.setText("Appointments");
 
         jLabel1.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
@@ -107,17 +107,17 @@ public class AppointmentWin extends javax.swing.JFrame {
         jScrollPane2.setViewportView(AppointTable);
 
         jButton1.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\edit.png")); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/edit.png"))); // NOI18N
         jButton1.setText("EDIT");
         jButton1.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
 
         jButton2.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\save.png")); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/save.png"))); // NOI18N
         jButton2.setText("SAVE");
         jButton2.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
 
         jButton3.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\bin.png")); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/bin.png"))); // NOI18N
         jButton3.setText("DELETE");
         jButton3.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -127,7 +127,7 @@ public class AppointmentWin extends javax.swing.JFrame {
         });
 
         jButton4.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\clear-filter.png")); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/clear-filter.png"))); // NOI18N
         jButton4.setText("CLEAR");
         jButton4.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -144,7 +144,7 @@ public class AppointmentWin extends javax.swing.JFrame {
         patientButton1.setBackground(java.awt.Color.red);
         patientButton1.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
         patientButton1.setForeground(new java.awt.Color(255, 255, 255));
-        patientButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\patient.png")); // NOI18N
+        patientButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/patient.png"))); // NOI18N
         patientButton1.setText("Patients");
         patientButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         patientButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -156,7 +156,7 @@ public class AppointmentWin extends javax.swing.JFrame {
         appointButton1.setBackground(java.awt.Color.red);
         appointButton1.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
         appointButton1.setForeground(new java.awt.Color(255, 255, 255));
-        appointButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\appoinment2.png")); // NOI18N
+        appointButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/appoinment2.png"))); // NOI18N
         appointButton1.setText("Appointments");
         appointButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         appointButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -168,7 +168,7 @@ public class AppointmentWin extends javax.swing.JFrame {
         treatmentButton1.setBackground(java.awt.Color.red);
         treatmentButton1.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
         treatmentButton1.setForeground(new java.awt.Color(255, 255, 255));
-        treatmentButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\syringe.png")); // NOI18N
+        treatmentButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/syringe.png"))); // NOI18N
         treatmentButton1.setText("Treatments");
         treatmentButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         treatmentButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -180,7 +180,7 @@ public class AppointmentWin extends javax.swing.JFrame {
         prescripButton2.setBackground(java.awt.Color.red);
         prescripButton2.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
         prescripButton2.setForeground(new java.awt.Color(255, 255, 255));
-        prescripButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\prescription.png")); // NOI18N
+        prescripButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/prescription.png"))); // NOI18N
         prescripButton2.setText("Prescriptions");
         prescripButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         prescripButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -194,7 +194,7 @@ public class AppointmentWin extends javax.swing.JFrame {
         prescripButton3.setBackground(java.awt.Color.red);
         prescripButton3.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
         prescripButton3.setForeground(new java.awt.Color(255, 255, 255));
-        prescripButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\cashless-payment.png")); // NOI18N
+        prescripButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/cashless-payment.png"))); // NOI18N
         prescripButton3.setText("Payment");
         prescripButton3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         prescripButton3.addActionListener(new java.awt.event.ActionListener() {
