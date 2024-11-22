@@ -1,3 +1,8 @@
+
+import Controller_Connector.DBConnect;
+import javax.swing.JOptionPane;
+import java.sql.*;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -10,9 +15,7 @@
  */
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
+    
     public Login() {
         initComponents();
     }
@@ -199,11 +202,59 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
+        String inputUsername = username.getText();
+    String inputPassword = new String(jPasswordField1.getPassword());
+
+    // Establish a database connection using DBConnect
+    DBConnect dbc = new DBConnect();
+    Connection con = dbc.getConnection();  // Assuming DBConnect has a method to get the connection
+
+    if (con != null) {
+        try {
+            // Create a SQL query to select the user by username
+            String query = "SELECT * FROM users WHERE username = ?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, inputUsername);
+
+            
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                
+                String storedPassword = rs.getString("password");
+
+                
+                if (inputPassword.equals(storedPassword)) {
+                    
+                    JOptionPane.showMessageDialog(this, "Login Successful!");
+                    new Dashboard().setVisible(true);
+                    this.dispose();
+                   
+                } else {
+                    // Invalid password
+                    JOptionPane.showMessageDialog(this, "Invalid password.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                // Username not found
+                JOptionPane.showMessageDialog(this, "User not found.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+            
+            rs.close();
+            pst.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Failed to connect to the database.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        // TODO add your handling code here:
+        username.setText("");
+        jPasswordField1.setText("");
     }//GEN-LAST:event_resetButtonActionPerformed
 
     /**
@@ -236,7 +287,7 @@ public class Login extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+                public void run() {
                 new Login().setVisible(true);
             }
         });
