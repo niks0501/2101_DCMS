@@ -2,18 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import java.sql.*;
+import javax.swing.JOptionPane;
+import Controller_Connector.DBConnect_Main;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Nikko
- */
+
 public class Treatment extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Treatment
-     */
+    DBConnect_Main dbc_Treat = new DBConnect_Main();
+    private PreparedStatement preparedStatement_Treat;
+    private Connection con_Treat;
     public Treatment() {
         initComponents();
+        con_Treat = dbc_Treat.getConnection();
+        loadTreatmentTable();
     }
 
     /**
@@ -31,16 +34,13 @@ public class Treatment extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        AppointTable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        TreatmentTable = new javax.swing.JTable();
+        editTreat = new javax.swing.JButton();
+        saveTreat = new javax.swing.JButton();
+        deleteTreat = new javax.swing.JButton();
+        clearTreat = new javax.swing.JButton();
+        treatmentName = new javax.swing.JTextField();
+        treatCost = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         patientButton = new javax.swing.JButton();
@@ -49,6 +49,7 @@ public class Treatment extends javax.swing.JFrame {
         prescripButton = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         prescripButton1 = new javax.swing.JButton();
+        treatmentMed = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(892, 574));
@@ -67,14 +68,14 @@ public class Treatment extends javax.swing.JFrame {
         jLabel1.setText("Name of Treatment");
 
         jLabel5.setFont(new java.awt.Font("Bahnschrift", 0, 14)); // NOI18N
-        jLabel5.setText("Date");
+        jLabel5.setText("Medicines");
 
         jLabel6.setFont(new java.awt.Font("Bahnschrift", 0, 14)); // NOI18N
         jLabel6.setText("Cost");
 
-        AppointTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        AppointTable.setFont(new java.awt.Font("Bahnschrift", 1, 12)); // NOI18N
-        AppointTable.setModel(new javax.swing.table.DefaultTableModel(
+        TreatmentTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        TreatmentTable.setFont(new java.awt.Font("Bahnschrift", 1, 12)); // NOI18N
+        TreatmentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -85,55 +86,49 @@ public class Treatment extends javax.swing.JFrame {
                 "TreatmentID", "Treatment Name", "Cost of Treatment", "Medicines"
             }
         ));
-        AppointTable.setGridColor(new java.awt.Color(0, 0, 0));
-        AppointTable.setName(""); // NOI18N
-        AppointTable.setShowGrid(true);
-        AppointTable.setSurrendersFocusOnKeystroke(true);
-        jScrollPane2.setViewportView(AppointTable);
+        TreatmentTable.setGridColor(new java.awt.Color(0, 0, 0));
+        TreatmentTable.setName(""); // NOI18N
+        TreatmentTable.setShowGrid(true);
+        TreatmentTable.setSurrendersFocusOnKeystroke(true);
+        jScrollPane2.setViewportView(TreatmentTable);
 
-        jButton1.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/edit.png"))); // NOI18N
-        jButton1.setText("EDIT");
-        jButton1.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        editTreat.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
+        editTreat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/edit.png"))); // NOI18N
+        editTreat.setText("EDIT");
+        editTreat.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
+        editTreat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                editTreatActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/save.png"))); // NOI18N
-        jButton2.setText("SAVE");
-        jButton2.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
-
-        jButton3.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/bin.png"))); // NOI18N
-        jButton3.setText("DELETE");
-        jButton3.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        saveTreat.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
+        saveTreat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/save.png"))); // NOI18N
+        saveTreat.setText("SAVE");
+        saveTreat.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
+        saveTreat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                saveTreatActionPerformed(evt);
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/clear-filter.png"))); // NOI18N
-        jButton4.setText("CLEAR");
-        jButton4.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        deleteTreat.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
+        deleteTreat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/bin.png"))); // NOI18N
+        deleteTreat.setText("DELETE");
+        deleteTreat.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
+        deleteTreat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                deleteTreatActionPerformed(evt);
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Bahnschrift", 0, 14)); // NOI18N
-        jLabel8.setText("Payment Method");
-
-        jComboBox2.setFont(new java.awt.Font("Bahnschrift", 0, 14)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cash", "Card", " " }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        clearTreat.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
+        clearTreat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/clear-filter.png"))); // NOI18N
+        clearTreat.setText("CLEAR");
+        clearTreat.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
+        clearTreat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                clearTreatActionPerformed(evt);
             }
         });
 
@@ -250,38 +245,40 @@ public class Treatment extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(51, 51, 51)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(87, 87, 87)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(22, 22, 22))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(293, 293, 293)
-                        .addComponent(jLabel9)
-                        .addContainerGap())
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(179, 179, 179)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(saveTreat, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(editTreat, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(deleteTreat, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(clearTreat, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(293, 293, 293)
+                                .addComponent(jLabel9))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(treatmentName, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(111, 111, 111)
+                                        .addComponent(jLabel6))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(105, 105, 105)
+                                        .addComponent(treatCost, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(68, 68, 68)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(treatmentMed, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(243, 243, 243)
@@ -291,29 +288,28 @@ public class Treatment extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(72, 72, 72)
+                .addGap(24, 24, 24)
+                .addComponent(jLabel5)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(treatmentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(treatCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addComponent(treatmentMed)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(saveTreat)
+                    .addComponent(editTreat)
+                    .addComponent(deleteTreat)
+                    .addComponent(clearTreat))
                 .addGap(46, 46, 46)
                 .addComponent(jLabel9)
                 .addGap(23, 23, 23)
@@ -342,21 +338,108 @@ public class Treatment extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void editTreatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editTreatActionPerformed
+        int selectedRow = TreatmentTable.getSelectedRow();
+    
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a treatment record to edit!");
+        return;
+    }
+    
+    // Get the TreatmentID from the selected row
+    int treatmentID = Integer.parseInt(TreatmentTable.getValueAt(selectedRow, 0).toString()); // Assuming column 0 is TreatmentID
+    
+    // Get the updated values from the input fields
+    String t_name = treatmentName.getText();
+    String t_cost = treatCost.getText();
+    String t_med = treatmentMed.getText();
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    
+    if (t_name.isEmpty() || t_cost.isEmpty() || t_med.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please fill in all fields!");
+        return;
+    }
+    
+    // Check if the cost is a valid number
+    try {
+        Double.parseDouble(t_cost); // Check if cost is a valid number
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Please enter a valid cost!");
+        return;
+    }
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    try {
+        // Prepare the SQL UPDATE query
+        String query = "UPDATE treatment SET TreatmentName = ?, CostOfTreatment = ?, Medicines = ? WHERE TreatmentID = ?";
+        preparedStatement_Treat = con_Treat.prepareStatement(query);
+        
+        // Set the parameters for the query
+        preparedStatement_Treat.setString(1, t_name); // Treatment Name
+        preparedStatement_Treat.setDouble(2, Double.parseDouble(t_cost)); // Treatment Cost
+        preparedStatement_Treat.setString(3, t_med); // Treatment Medication
+        preparedStatement_Treat.setInt(4, treatmentID); // Treatment ID
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+        // Execute the update query
+        preparedStatement_Treat.executeUpdate();
+
+        // Show confirmation message
+        JOptionPane.showMessageDialog(this, "Treatment record updated!");
+
+        
+        treatmentName.setText("");
+        treatCost.setText("");
+        treatmentMed.setText("");
+
+        
+        loadTreatmentTable();
+
+    } catch (SQLException ex) {
+        // Handle SQL errors
+        JOptionPane.showMessageDialog(this, "Error updating treatment record: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_editTreatActionPerformed
+
+    private void deleteTreatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTreatActionPerformed
+        int selectedRow = TreatmentTable.getSelectedRow();
+    
+        if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a treatment record to delete!");
+        return;
+    }
+    
+    // Get the TreatmentID from the selected row
+    int treatmentID = Integer.parseInt(TreatmentTable.getValueAt(selectedRow, 0).toString()); // Assuming column 0 is TreatmentID
+
+    
+    int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this record?", "Delete Confirmation", JOptionPane.YES_NO_OPTION);
+    
+    if (confirm == JOptionPane.YES_OPTION) {
+        try {
+            
+            String query = "DELETE FROM treatment WHERE TreatmentID = ?";
+            preparedStatement_Treat = con_Treat.prepareStatement(query);
+            
+            // Set the TreatmentID parameter
+            preparedStatement_Treat.setInt(1, treatmentID);
+            
+            // Execute the DELETE query
+            preparedStatement_Treat.executeUpdate();
+            
+            
+            JOptionPane.showMessageDialog(this, "Treatment record deleted successfully!");
+            
+            // Refresh the table to reflect the changes
+            loadTreatmentTable();
+        } catch (SQLException ex) {
+            // Handle SQL errors
+            JOptionPane.showMessageDialog(this, "Error deleting treatment record: " + ex.getMessage());
+        }
+            }
+    }//GEN-LAST:event_deleteTreatActionPerformed
+
+    private void clearTreatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearTreatActionPerformed
+        clearFields_Treatment();
+    }//GEN-LAST:event_clearTreatActionPerformed
 
     private void patientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientButtonActionPerformed
         // TODO add your handling code here:
@@ -377,6 +460,55 @@ public class Treatment extends javax.swing.JFrame {
     private void prescripButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_prescripButton1ActionPerformed
+
+    private void saveTreatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveTreatActionPerformed
+        String t_name = treatmentName.getText();
+        String t_cost = treatCost.getText();
+        String t_med = treatmentMed.getText();
+
+    // Validate input fields
+    if (t_name.isEmpty() || t_cost.isEmpty() || t_med.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please fill in all fields!");
+        return;
+    }
+
+    // Check if the cost is a valid number
+    try {
+        Double.parseDouble(t_cost); // Check if cost is a valid number
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Please enter a valid cost!");
+        return;
+    }
+
+    try {
+        // Prepare SQL INSERT query
+        String query = "INSERT INTO treatment (TreatmentName, CostOfTreatment, Medicines) VALUES (?, ?, ?)";
+        preparedStatement_Treat = con_Treat.prepareStatement(query);
+        
+        // Set the parameters for the query
+        preparedStatement_Treat.setString(1, t_name); // Treatment Name
+        preparedStatement_Treat.setDouble(2, Double.parseDouble(t_cost)); // Treatment Cost
+        preparedStatement_Treat.setString(3, t_med); // Treatment Medication
+
+        // Execute the query
+        preparedStatement_Treat.executeUpdate();
+
+        // Show confirmation message
+        JOptionPane.showMessageDialog(this, "Treatment record saved!");
+
+        // Optionally, clear the input fields after saving
+        treatmentName.setText("");
+        treatCost.setText("");
+        treatmentMed.setText("");
+
+        // Optionally, reload the treatment table
+        loadTreatmentTable();
+
+    } catch (SQLException ex) {
+        // Handle SQL errors
+        JOptionPane.showMessageDialog(this, "Error saving treatment record: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_saveTreatActionPerformed
 
     /**
      * @param args the command line arguments
@@ -412,31 +544,60 @@ public class Treatment extends javax.swing.JFrame {
             }
         });
     }
+    public void loadTreatmentTable() {
+        try {
+        // Query to fetch all patient data from the database
+        String query = "SELECT TreatmentID, TreatmentName, CostOfTreatment, Medicines FROM treatment";
+        preparedStatement_Treat = con_Treat.prepareStatement(query);
+        ResultSet resultSet = preparedStatement_Treat.executeQuery();
+
+        
+        DefaultTableModel tableModel = (DefaultTableModel) TreatmentTable.getModel();
+        tableModel.setRowCount(0);
+
+        // Populate table rows with data from the result set
+        while (resultSet.next()) {
+            Object[] row = new Object[]{
+                resultSet.getInt("TreatmentID"),        
+                resultSet.getString("TreatmentName"),  
+                resultSet.getString("CostOfTreatment"),        
+                resultSet.getString("Medicines") 
+                    
+            };
+            tableModel.addRow(row);
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error loading table data: " + ex.getMessage());
+        }
+    }
+    public void clearFields_Treatment(){
+        treatCost.setText("");
+        treatmentName.setText("");
+        treatmentMed.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable AppointTable;
+    private javax.swing.JTable TreatmentTable;
     private javax.swing.JButton appointButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JButton clearTreat;
+    private javax.swing.JButton deleteTreat;
+    private javax.swing.JButton editTreat;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JButton patientButton;
     private javax.swing.JButton prescripButton;
     private javax.swing.JButton prescripButton1;
+    private javax.swing.JButton saveTreat;
+    private javax.swing.JTextField treatCost;
     private javax.swing.JButton treatmentButton;
+    private javax.swing.JTextField treatmentMed;
+    private javax.swing.JTextField treatmentName;
     // End of variables declaration//GEN-END:variables
 }
