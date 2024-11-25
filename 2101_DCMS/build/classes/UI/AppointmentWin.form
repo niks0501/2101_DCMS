@@ -317,6 +317,9 @@
               </Border>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editAppointActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="saveAppoint">
           <Properties>
@@ -335,6 +338,9 @@
               </Border>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveAppointActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="deleteAppoint">
           <Properties>
