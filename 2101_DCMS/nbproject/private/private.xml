@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< Updated upstream
 <<<<<<< HEAD
             <file>file:/C:/Users/christian/Documents/dcms-2101/2101_DCMS/2101_DCMS/src/AppointmentWin.java</file>
             <file>file:/C:/Users/christian/Documents/dcms-2101/2101_DCMS/2101_DCMS/src/Treatment.java</file>
@@ -17,6 +18,12 @@
             <file>file:/C:/Users/Nikko/Documents/2101_DCMS/2101_DCMS/src/UI/Treatment.java</file>
             <file>file:/C:/Users/Nikko/Documents/2101_DCMS/2101_DCMS/src/Payment.java</file>
 >>>>>>> 8baa1026379a644d04143a4a59c4cca64333a308
+=======
+            <file>file:/C:/Users/Nikko/Documents/2101_DCMS/2101_DCMS/src/UI/Patient.java</file>
+            <file>file:/C:/Users/Nikko/Documents/2101_DCMS/2101_DCMS/src/UI/Inventory.java</file>
+            <file>file:/C:/Users/Nikko/Documents/2101_DCMS/2101_DCMS/src/UI/Payment.java</file>
+            <file>file:/C:/Users/Nikko/Documents/2101_DCMS/2101_DCMS/src/UI/Prescriptions.java</file>
+>>>>>>> Stashed changes
         </group>
     </open-files>
 </project-private>
