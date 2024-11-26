@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/christian/Documents/dcms-2101/2101_DCMS/2101_DCMS/src/AppointmentWin.java</file>
             <file>file:/C:/Users/christian/Documents/dcms-2101/2101_DCMS/2101_DCMS/src/Treatment.java</file>
             <file>file:/C:/Users/christian/Documents/dcms-2101/2101_DCMS/2101_DCMS/src/DentalClinicSys.java</file>
@@ -10,6 +11,12 @@
             <file>file:/C:/Users/christian/Documents/dcms-2101/2101_DCMS/2101_DCMS/src/Patient.java</file>
             <file>file:/C:/Users/christian/Documents/dcms-2101/2101_DCMS/2101_DCMS/src/Invoice.java</file>
             <file>file:/C:/Users/christian/Documents/dcms-2101/2101_DCMS/2101_DCMS/src/Prescriptions.java</file>
+=======
+            <file>file:/C:/Users/Nikko/Documents/2101_DCMS/2101_DCMS/src/UI/AppointmentWin.java</file>
+            <file>file:/C:/Users/Nikko/Documents/2101_DCMS/2101_DCMS/src/UI/Patient.java</file>
+            <file>file:/C:/Users/Nikko/Documents/2101_DCMS/2101_DCMS/src/UI/Treatment.java</file>
+            <file>file:/C:/Users/Nikko/Documents/2101_DCMS/2101_DCMS/src/Payment.java</file>
+>>>>>>> 8baa1026379a644d04143a4a59c4cca64333a308
         </group>
     </open-files>
 </project-private>

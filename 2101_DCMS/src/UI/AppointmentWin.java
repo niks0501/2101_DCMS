@@ -2,19 +2,89 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import java.sql.*;
+import javax.swing.JOptionPane;
+import Controller_Connector.DBConnect_Main;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Nikko
- */
 public class AppointmentWin extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AppoinmentWin
-     */
+    DBConnect_Main dbc_App = new DBConnect_Main();
+    private PreparedStatement preparedStatement_App;
+    private Connection con_App;
     public AppointmentWin() {
         initComponents();
+        con_App = dbc_App.getConnection();
+        loadPatientComboBox();
+        loadAppointmentTable();
+        loadTreatmentComboBox();
     }
+    private int getPatientID(String patientName) throws SQLException {
+    String query = "SELECT PatientID FROM patient WHERE PatientName = ?";
+    PreparedStatement pst = con_App.prepareStatement(query);
+    pst.setString(1, patientName);
+    ResultSet rs = pst.executeQuery();
+    if (rs.next()) {
+        return rs.getInt("PatientID");
+    } else {
+        throw new SQLException("Patient not found!");
+    }
+}
+    
+    private int getTreatmentID(String treatmentName) throws SQLException {
+    String query = "SELECT TreatmentID FROM treatment WHERE TreatmentName = ?";
+    PreparedStatement pst = con_App.prepareStatement(query);
+    pst.setString(1, treatmentName);
+    ResultSet rs = pst.executeQuery();
+    if (rs.next()) {
+        return rs.getInt("TreatmentID");
+    } else {
+        throw new SQLException("Treatment not found!");
+    }
+}
+    
+    private void loadPatientComboBox() {
+    try {
+        String query = "SELECT PatientName FROM patient";
+        PreparedStatement pst = con_App.prepareStatement(query);
+        ResultSet rs = pst.executeQuery();
+
+        // Clear existing items
+        patientChoose.removeAllItems();
+        patientChoose.addItem("Select Patient"); // Add a default option
+
+        while (rs.next()) {
+            String patientName = rs.getString("PatientName");
+            patientChoose.addItem(patientName); // Add each patient name to combo box
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error loading patients: " + ex.getMessage());
+    }
+}
+    
+    private void loadTreatmentComboBox() {
+    try {
+        String query = "SELECT TreatmentName FROM treatment";
+        PreparedStatement pst = con_App.prepareStatement(query);
+        ResultSet rs = pst.executeQuery();
+
+        // Clear existing items
+        treatment.removeAllItems();
+        treatment.addItem("Select Treatment"); // Add a default option
+
+        while (rs.next()) {
+            String treatmentName = rs.getString("TreatmentName");
+            treatment.addItem(treatmentName); // Add each treatment name to combo box
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error loading treatments: " + ex.getMessage());
+    }
+}
+
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,19 +98,19 @@ public class AppointmentWin extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        dateChooser = new com.toedter.calendar.JDateChooser();
+        dateAppoint = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        schedTime = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        patientChoose = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        treatment = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         AppointTable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        editAppoint = new javax.swing.JButton();
+        saveAppoint = new javax.swing.JButton();
+        deleteAppoint = new javax.swing.JButton();
+        clearAppoint = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         patientButton1 = new javax.swing.JButton();
@@ -69,9 +139,10 @@ public class AppointmentWin extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
         jLabel4.setText("Treatments");
 
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        schedTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "8 AM - 10AM", "10 AM - 12 PM", "1 PM - 2PM", "2 PM -3 PM", "4 PM -5 PM", "5 PM - 6 PM" }));
+        schedTime.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                schedTimeActionPerformed(evt);
             }
         });
 
@@ -81,9 +152,9 @@ public class AppointmentWin extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
         jLabel6.setText("Scheduled time");
 
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+        treatment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
+                treatmentActionPerformed(evt);
             }
         });
 
@@ -106,33 +177,43 @@ public class AppointmentWin extends javax.swing.JFrame {
         AppointTable.setSurrendersFocusOnKeystroke(true);
         jScrollPane2.setViewportView(AppointTable);
 
-        jButton1.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/edit.png"))); // NOI18N
-        jButton1.setText("EDIT");
-        jButton1.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
-
-        jButton2.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/save.png"))); // NOI18N
-        jButton2.setText("SAVE");
-        jButton2.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
-
-        jButton3.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/bin.png"))); // NOI18N
-        jButton3.setText("DELETE");
-        jButton3.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        editAppoint.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
+        editAppoint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/edit.png"))); // NOI18N
+        editAppoint.setText("EDIT");
+        editAppoint.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
+        editAppoint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                editAppointActionPerformed(evt);
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/clear-filter.png"))); // NOI18N
-        jButton4.setText("CLEAR");
-        jButton4.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        saveAppoint.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
+        saveAppoint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/save.png"))); // NOI18N
+        saveAppoint.setText("SAVE");
+        saveAppoint.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
+        saveAppoint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                saveAppointActionPerformed(evt);
+            }
+        });
+
+        deleteAppoint.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
+        deleteAppoint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/bin.png"))); // NOI18N
+        deleteAppoint.setText("DELETE");
+        deleteAppoint.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
+        deleteAppoint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteAppointActionPerformed(evt);
+            }
+        });
+
+        clearAppoint.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
+        clearAppoint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/clear-filter.png"))); // NOI18N
+        clearAppoint.setText("CLEAR");
+        clearAppoint.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
+        clearAppoint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearAppointActionPerformed(evt);
             }
         });
 
@@ -249,39 +330,40 @@ public class AppointmentWin extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(dateAppoint, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(patientChoose, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(schedTime, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(treatment, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(168, 168, 168)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(saveAppoint, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(editAppoint, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(deleteAppoint, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(clearAppoint, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(9, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel9)
                 .addGap(261, 261, 261))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(247, 247, 247)
-                .addComponent(jScrollPane2))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(233, 233, 233)
+                .addComponent(jScrollPane2)
+                .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(243, 243, 243)
@@ -293,29 +375,33 @@ public class AppointmentWin extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(70, 70, 70)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(dateAppoint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(patientChoose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(68, 68, 68)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(schedTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(treatment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3)
-                    .addComponent(jButton2)
-                    .addComponent(jButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                    .addComponent(editAppoint)
+                    .addComponent(deleteAppoint)
+                    .addComponent(saveAppoint)
+                    .addComponent(clearAppoint))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -343,21 +429,54 @@ public class AppointmentWin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void schedTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schedTimeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_schedTimeActionPerformed
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+    private void treatmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treatmentActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
+    }//GEN-LAST:event_treatmentActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void deleteAppointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAppointActionPerformed
+        int selectedRow = AppointTable.getSelectedRow(); // Get selected row index
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select an appointment to delete.");
+        return;
+    }
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    try {
+        // Get the AppointmentID from the selected row
+        int appointmentID = (int) AppointTable.getValueAt(selectedRow, 0);
+
+        // Confirm deletion
+        int confirm = JOptionPane.showConfirmDialog(this, 
+            "Are you sure you want to delete this appointment?", 
+            "Delete Appointment", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) {
+            return; // Exit if the user chooses not to delete
+        }
+
+        // Query to delete the appointment
+        String query = "DELETE FROM appointment WHERE AppointmentID = ?";
+        PreparedStatement preparedStatement = con_App.prepareStatement(query);
+        preparedStatement.setInt(1, appointmentID);
+
+        // Execute deletion
+        int rowsAffected = preparedStatement.executeUpdate();
+        if (rowsAffected > 0) {
+            JOptionPane.showMessageDialog(this, "Appointment deleted successfully.");
+            loadAppointmentTable(); // Refresh the table after deletion
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to delete appointment. Please try again.");
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error deleting appointment: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_deleteAppointActionPerformed
+
+    private void clearAppointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearAppointActionPerformed
+        clearAppointmentFields();
+    }//GEN-LAST:event_clearAppointActionPerformed
 
     private void patientButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientButton1ActionPerformed
         // TODO add your handling code here:
@@ -378,6 +497,119 @@ public class AppointmentWin extends javax.swing.JFrame {
     private void prescripButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_prescripButton3ActionPerformed
+
+    private void saveAppointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAppointActionPerformed
+        java.util.Date dateOfApp = dateAppoint.getDate(); // JDateChooser for appointment date
+    String p_app = patientChoose.getSelectedItem() != null ? patientChoose.getSelectedItem().toString() : ""; // Dropdown for Patient
+    String schedApp = schedTime.getSelectedItem() != null ? schedTime.getSelectedItem().toString() : ""; // Dropdown for schedule time
+    String treatApp = treatment.getSelectedItem() != null ? treatment.getSelectedItem().toString() : ""; // Dropdown for treatment
+
+    // Validate input fields
+    if (dateOfApp == null || p_app.isEmpty() || schedApp.isEmpty() || treatApp.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "All fields are required!");
+        return;
+    }
+    
+    try {
+        // Format the appointment date to "yyyy-MM-dd"
+        java.text.SimpleDateFormat outputFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = outputFormat.format(dateOfApp);
+
+        // Query to insert data into the `appointment` table
+        String query = "INSERT INTO appointment (AppointmentDate, AppointmentTime, PatientID, TreatmentID) VALUES (?, ?, ?, ?)";
+
+        // Get PatientID and TreatmentID based on selections
+        int patientID = getPatientID(p_app);
+        int treatmentID = getTreatmentID(treatApp);
+
+        // Prepare the statement and set parameters
+        preparedStatement_App = con_App.prepareStatement(query);
+        preparedStatement_App.setString(1, formattedDate); // AppointmentDate
+        preparedStatement_App.setString(2, schedApp);      // AppointmentTime
+        preparedStatement_App.setInt(3, patientID);        // PatientID
+        preparedStatement_App.setInt(4, treatmentID);      // TreatmentID
+
+        // Execute the query
+        preparedStatement_App.executeUpdate();
+
+        // Success message
+        JOptionPane.showMessageDialog(this, "Appointment saved successfully!");
+
+        // Clear fields and reload table
+        clearAppointmentFields();
+        loadAppointmentTable();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error saving appointment: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_saveAppointActionPerformed
+
+    private void editAppointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editAppointActionPerformed
+        java.util.Date dateOfApp = dateAppoint.getDate(); // JDateChooser
+    String p_app = patientChoose.getSelectedItem().toString(); // Selected Patient
+    String schedApp = schedTime.getSelectedItem().toString(); // Schedule
+    String treatApp = treatment.getSelectedItem().toString(); // Selected Treatment
+
+    // Check if any of the fields are empty
+    if (p_app.equals("Select Patient") || schedApp.isEmpty() || treatApp.equals("Select Treatment")) {
+        JOptionPane.showMessageDialog(this, "Please fill in all required fields!");
+        return;
+    }
+
+    try {
+        // Get the Appointment ID from the table's selected row
+        int selectedRow = AppointTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select an appointment to edit.");
+            return;
+        }
+        int appointmentID = (int) AppointTable.getValueAt(selectedRow, 0);
+
+        // Format the appointment date (if provided)
+        String formattedDate = null;
+        if (dateOfApp != null) {
+            java.text.SimpleDateFormat outputFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+            formattedDate = outputFormat.format(dateOfApp);
+        }
+
+        // Retrieve PatientID and TreatmentID
+        int patientID = getPatientID(p_app);
+        int treatmentID = getTreatmentID(treatApp);
+
+        // Build the SQL query
+        String query = "UPDATE appointment SET "
+                + "AppointmentDate = COALESCE(?, AppointmentDate), "
+                + "AppointmentTime = COALESCE(?, AppointmentTime), "
+                + "PatientID = COALESCE(?, PatientID), "
+                + "TreatmentID = COALESCE(?, TreatmentID) "
+                + "WHERE AppointmentID = ?";
+
+        // Prepare the SQL statement
+        PreparedStatement pst = con_App.prepareStatement(query);
+        if (formattedDate != null) {
+            pst.setString(1, formattedDate);
+        } else {
+            pst.setNull(1, java.sql.Types.DATE);
+        }
+        pst.setString(2, schedApp); // Appointment Time
+        pst.setInt(3, patientID);  // PatientID
+        pst.setInt(4, treatmentID); // TreatmentID
+        pst.setInt(5, appointmentID); // AppointmentID (WHERE clause)
+
+        // Execute the update
+        int rowsUpdated = pst.executeUpdate();
+
+        if (rowsUpdated > 0) {
+            JOptionPane.showMessageDialog(this, "Appointment updated successfully!");
+            clearAppointmentFields();
+            loadAppointmentTable(); // Refresh the table to show updated data
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to update appointment. Please try again.");
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error updating appointment: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_editAppointActionPerformed
 
     /**
      * @param args the command line arguments
@@ -414,18 +646,58 @@ public class AppointmentWin extends javax.swing.JFrame {
             }
         });
     }
+    
+        private void clearAppointmentFields() {
+    dateAppoint.setDate(null);
+    patientChoose.setSelectedIndex(0);
+    schedTime.setSelectedIndex(0);
+    treatment.setSelectedIndex(0);
+    }
+        
+        private void loadAppointmentTable() {
+    try {
+        // Clear the existing rows in the table model
+        DefaultTableModel model = (DefaultTableModel) AppointTable.getModel();
+        model.setRowCount(0);
+
+        // Query to fetch appointment data ordered by AppointmentID
+        String query = "SELECT a.AppointmentID, a.AppointmentDate, a.AppointmentTime, "
+                + "p.PatientName, t.TreatmentName "
+                + "FROM appointment a "
+                + "JOIN patient p ON a.PatientID = p.PatientID "
+                + "JOIN treatment t ON a.TreatmentID = t.TreatmentID "
+                + "ORDER BY a.AppointmentID ASC";
+
+        // Execute the query
+        Statement stmt = con_App.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+
+        // Populate the table with data
+        while (rs.next()) {
+            int appointmentID = rs.getInt("AppointmentID");
+            String appointmentDate = rs.getString("AppointmentDate");
+            String appointmentTime = rs.getString("PatientName");
+            String patientName = rs.getString("AppointmentTime");
+            String treatmentName = rs.getString("TreatmentName");
+
+            // Add row to the table model
+            model.addRow(new Object[]{appointmentID, appointmentDate, appointmentTime, patientName, treatmentName});
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error loading appointment data: " + ex.getMessage());
+    }
+}
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable AppointTable;
     private javax.swing.JButton appointButton1;
-    private com.toedter.calendar.JDateChooser dateChooser;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JButton clearAppoint;
+    private com.toedter.calendar.JDateChooser dateAppoint;
+    private javax.swing.JButton deleteAppoint;
+    private javax.swing.JButton editAppoint;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel3;
@@ -437,8 +709,12 @@ public class AppointmentWin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton patientButton1;
+    private javax.swing.JComboBox<String> patientChoose;
     private javax.swing.JButton prescripButton2;
     private javax.swing.JButton prescripButton3;
+    private javax.swing.JButton saveAppoint;
+    private javax.swing.JComboBox<String> schedTime;
+    private javax.swing.JComboBox<String> treatment;
     private javax.swing.JButton treatmentButton1;
     // End of variables declaration//GEN-END:variables
 }
