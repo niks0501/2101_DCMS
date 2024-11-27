@@ -6,13 +6,19 @@
 import java.sql.*;
 import javax.swing.JOptionPane;
 import Controller_Connector.DBConnect_Main;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 
 public class Prescriptions extends javax.swing.JFrame {
@@ -43,7 +49,7 @@ public class Prescriptions extends javax.swing.JFrame {
                        "FROM prescription " +
                        "JOIN treatment t ON prescription.TreatmentID = t.TreatmentID " +
                        "JOIN patient ON prescription.PatientName = patient.PatientID " +
-                       "ORDER BY prescription.PrescriptionID ASC";  // Sorting by ascending order to load from first to last
+                       "ORDER BY prescription.PrescriptionID ASC";  
 
         Statement statement = con_Pr.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
@@ -57,8 +63,7 @@ public class Prescriptions extends javax.swing.JFrame {
             // Get the medicines for the prescription (could be multiple)
             String medicines = resultSet.getString("PrescriptionMedicine");
 
-            // If the medicines are present, split them into individual medicines and rejoin as needed
-            // This handles cases for both single and multiple medicines
+            
             String[] medicineArray = medicines.split(", ");
             String formattedMedicine = String.join(", ", medicineArray);  // Rejoining in case multiple medicines are stored
 
@@ -160,8 +165,10 @@ private int getPatientID(String patientName) {
             treatPr.addItem(treatmentResult.getString("TreatmentName"));
         }
 
-        // Load Patient names into patientPr combo box
-        String patientQuery = "SELECT PatientName FROM patient";
+        // Load Patient names into patientPr combo box, but only those who have appointments
+        String patientQuery = "SELECT DISTINCT p.PatientName " +
+                               "FROM patient p " +
+                               "JOIN appointment a ON p.PatientID = a.PatientID"; // Join with appointment table
         PreparedStatement patientStmt = con_Pr.prepareStatement(patientQuery);
         ResultSet patientResult = patientStmt.executeQuery();
         patientPr.removeAllItems(); // Clear existing items
@@ -172,6 +179,55 @@ private int getPatientID(String patientName) {
     } catch (SQLException ex) {
         JOptionPane.showMessageDialog(this, "Error loading combo boxes: " + ex.getMessage());
     }
+}
+
+       
+    private void expandViewPres() {
+    // Create a new frame for the expanded view
+    JFrame expandedFrame = new JFrame("Expanded Inventory View");
+    expandedFrame.setSize(1200, 600); 
+    expandedFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+    
+    JTable expandedTable = new JTable(PrTable.getModel());
+
+    // Enable row resizing and set an initial row height
+    expandedTable.setRowHeight(30);
+
+    // Disable horizontal scrolling by adjusting column widths dynamically
+    expandedTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+    // Calculate the total width of the frame and distribute it among columns
+    int tableWidth = expandedFrame.getWidth();
+    TableColumnModel columnModel = expandedTable.getColumnModel();
+    int columnCount = columnModel.getColumnCount();
+    for (int i = 0; i < columnCount; i++) {
+        columnModel.getColumn(i).setPreferredWidth(tableWidth / columnCount);
+    }
+
+    // Add mouse listener for cell click interactions
+    expandedTable.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            int row = expandedTable.rowAtPoint(e.getPoint());
+            int column = expandedTable.columnAtPoint(e.getPoint());
+            if (row >= 0 && column >= 0) {
+                Object value = expandedTable.getValueAt(row, column);
+                JOptionPane.showMessageDialog(expandedFrame,
+                    "Cell clicked: (" + row + ", " + column + ")\nValue: " + value,
+                    "Cell Details",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    });
+
+
+    // Add the table to a scroll pane
+    JScrollPane scrollPane = new JScrollPane(expandedTable);
+    expandedFrame.add(scrollPane);
+
+    // Set the expanded frame to be visible
+    expandedFrame.setVisible(true);
 }
 
 
@@ -213,6 +269,7 @@ private int getPatientID(String patientName) {
         prescripButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listMed = new javax.swing.JList<>();
+        expandPres = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(892, 574));
@@ -432,6 +489,16 @@ private int getPatientID(String patientName) {
 
         jScrollPane1.setViewportView(listMed);
 
+        expandPres.setFont(new java.awt.Font("Bahnschrift", 1, 10)); // NOI18N
+        expandPres.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/expand.png"))); // NOI18N
+        expandPres.setText("Expand");
+        expandPres.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
+        expandPres.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                expandPresActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -471,10 +538,15 @@ private int getPatientID(String patientName) {
                                 .addGap(18, 18, 18)
                                 .addComponent(editPr, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addComponent(deletePr, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(clearPr, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(157, 157, 157))))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(deletePr, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(clearPr, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(157, 157, 157))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(expandPres)
+                                .addGap(16, 16, 16))))))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(243, 243, 243)
@@ -513,7 +585,9 @@ private int getPatientID(String patientName) {
                     .addComponent(deletePr)
                     .addComponent(clearPr))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(jLabel9)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(expandPres))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
@@ -757,6 +831,10 @@ private int getPatientID(String patientName) {
         }
     }//GEN-LAST:event_savePrActionPerformed
 
+    private void expandPresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expandPresActionPerformed
+        expandViewPres();
+    }//GEN-LAST:event_expandPresActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -802,6 +880,7 @@ private int getPatientID(String patientName) {
     private javax.swing.JTextField costPr;
     private javax.swing.JButton deletePr;
     private javax.swing.JButton editPr;
+    private javax.swing.JButton expandPres;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

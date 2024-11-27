@@ -9,11 +9,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.*;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -96,6 +98,23 @@ public class Inventory extends javax.swing.JFrame {
         columnModel.getColumn(i).setPreferredWidth(tableWidth / columnCount);
     }
 
+    // Add mouse listener for cell click interactions
+    expandedTable.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            int row = expandedTable.rowAtPoint(e.getPoint());
+            int column = expandedTable.columnAtPoint(e.getPoint());
+            if (row >= 0 && column >= 0) {
+                Object value = expandedTable.getValueAt(row, column);
+                JOptionPane.showMessageDialog(expandedFrame,
+                    "Cell clicked: (" + row + ", " + column + ")\nValue: " + value,
+                    "Cell Details",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    });
+
+
     // Add the table to a scroll pane
     JScrollPane scrollPane = new JScrollPane(expandedTable);
     expandedFrame.add(scrollPane);
@@ -103,6 +122,7 @@ public class Inventory extends javax.swing.JFrame {
     // Set the expanded frame to be visible
     expandedFrame.setVisible(true);
 }
+
 
 
 

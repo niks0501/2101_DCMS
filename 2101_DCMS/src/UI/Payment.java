@@ -2,20 +2,62 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import Controller_Connector.DBConnect_Main;
+import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Nikko
- */
+
+
+
 public class Payment extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Payment
-     */
+    DBConnect_Main dbc_Pay = new DBConnect_Main();
+    private PreparedStatement preparedStatement_Pay;
+    private Connection con_Pay;
+    
     public Payment() {
         initComponents();
+        con_Pay = dbc_Pay.getConnection();
+        loadPatientNames();
+        populatePaymentTable();
+        
     }
+    
+    private void loadPatientNames() {
+    try {
+        // Query to get PatientNames who have at least one appointment
+        String query = "SELECT DISTINCT p.PatientName " +
+                       "FROM patient p " +
+                       "JOIN appointment a ON p.PatientID = a.PatientID";
 
+        Statement statement = con_Pay.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+
+        namePay.removeAllItems();
+        namePay.addItem("Select Patient");
+       
+        while (resultSet.next()) {
+            namePay.addItem(resultSet.getString("PatientName")); // Add patient names with appointments
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error loading patient names: " + ex.getMessage());
+    }
+}
+
+
+    
+    
+
+    
+  
+    
+    
+    
+
+
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,7 +73,6 @@ public class Payment extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         paymentTable = new javax.swing.JTable();
-        editPay = new javax.swing.JButton();
         savePay = new javax.swing.JButton();
         deletePayRec = new javax.swing.JButton();
         clearPay = new javax.swing.JButton();
@@ -48,14 +89,16 @@ public class Payment extends javax.swing.JFrame {
         prescripButton = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         prescripButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(892, 574));
-        setPreferredSize(new java.awt.Dimension(892, 574));
-        setResizable(false);
+        setPreferredSize(new java.awt.Dimension(0, 0));
+        setSize(new java.awt.Dimension(0, 0));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 3, true));
+        jPanel1.setMinimumSize(new java.awt.Dimension(892, 574));
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
@@ -79,24 +122,15 @@ public class Payment extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "PatientID", "Patient Name", "Payment Method", "Total Bill", "Status", "Date"
+                "PaymentID", "Patient Name", "Payment Method", "Total Bill", "Status", "Date"
             }
         ));
         paymentTable.setGridColor(new java.awt.Color(0, 0, 0));
+        paymentTable.setMinimumSize(new java.awt.Dimension(892, 574));
         paymentTable.setName(""); // NOI18N
         paymentTable.setShowGrid(true);
         paymentTable.setSurrendersFocusOnKeystroke(true);
         jScrollPane2.setViewportView(paymentTable);
-
-        editPay.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
-        editPay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/edit.png"))); // NOI18N
-        editPay.setText("EDIT");
-        editPay.setBorder(new javax.swing.border.LineBorder(java.awt.Color.red, 2, true));
-        editPay.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editPayActionPerformed(evt);
-            }
-        });
 
         savePay.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
         savePay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/save.png"))); // NOI18N
@@ -246,52 +280,58 @@ public class Payment extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel1.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
+        jLabel1.setText("Payment List");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(185, 185, 185)
-                                .addComponent(savePay, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(editPay, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(deletePayRec, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(clearPay, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6)
-                                    .addComponent(namePay, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(namePay, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(48, 48, 48)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(46, 46, 46)
-                                        .addComponent(jLabel5))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(42, 42, 42)
-                                        .addComponent(statusPay, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(71, 71, 71)
+                                    .addComponent(jLabel5)
+                                    .addComponent(statusPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(31, 31, 31)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
-                                    .addComponent(payMed, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(76, 76, 76)
+                                    .addComponent(payMed, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(54, 54, 54)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(paymentDate, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4))))
-                        .addContainerGap(19, Short.MAX_VALUE))))
+                                    .addComponent(jLabel4)
+                                    .addComponent(paymentDate, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGap(138, 138, 138)
+                                .addComponent(savePay, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(deletePayRec, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(clearPay, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(46, 46, 46))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(243, 243, 243)
                     .addComponent(jLabel3)
-                    .addContainerGap(457, Short.MAX_VALUE)))
+                    .addContainerGap(513, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,27 +344,27 @@ public class Payment extends javax.swing.JFrame {
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(payMed, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(paymentDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(paymentDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(namePay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(statusPay, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                        .addComponent(statusPay, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(payMed, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(savePay)
-                    .addComponent(editPay)
                     .addComponent(deletePayRec)
                     .addComponent(clearPay))
-                .addGap(26, 26, 26)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addGap(12, 12, 12)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(16, 16, 16)
                     .addComponent(jLabel3)
-                    .addContainerGap(445, Short.MAX_VALUE)))
+                    .addContainerGap(520, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -335,23 +375,19 @@ public class Payment extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void editPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editPayActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_editPayActionPerformed
-
     private void deletePayRecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletePayRecActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_deletePayRecActionPerformed
 
     private void clearPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearPayActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_clearPayActionPerformed
 
     private void payMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payMedActionPerformed
@@ -379,9 +415,113 @@ public class Payment extends javax.swing.JFrame {
     }//GEN-LAST:event_prescripButton1ActionPerformed
 
     private void savePayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePayActionPerformed
+        String patientName = namePay.getSelectedItem() != null ? namePay.getSelectedItem().toString() : null;
+        String paymentMethod = payMed.getSelectedItem() != null ? payMed.getSelectedItem().toString() : null;
+        String paymentStatus = statusPay.getSelectedItem() != null ? statusPay.getSelectedItem().toString() : null;
+        java.util.Date paymentDate = this.paymentDate.getDate(); // Assuming you have a date picker
+
+    // Step 2: Validate inputs
+    if (patientName == null || paymentMethod == null || paymentStatus == null || paymentDate == null) {
+        JOptionPane.showMessageDialog(this, "All fields are required!");
+        return; // Exit the method if any field is missing
+    }
+
+    try {
+        // Step 3: Fetch PatientID from the database based on selected PatientName
+        int patientID = getPatientID(patientName); // This method fetches the PatientID based on the name
+
+        if (patientID == -1) {
+            JOptionPane.showMessageDialog(this, "Patient not found.");
+            return; // Exit if the patient is not found
+        }
+
+        // Step 4: Calculate the total bill for the selected patient
+        //double totalBill = calculateTotalBill(patientID);
+
+        // Step 5: Insert payment record into the payment table
+        String query = "INSERT INTO payment (PaymentID, PaymentMethod,  PaymentStatus, PaymentDate) " +
+                       "VALUES (?, ?, ?, ?)";
+
+        PreparedStatement preparedStatement = con_Pay.prepareStatement(query);
+        preparedStatement.setInt(1, patientID);
+        preparedStatement.setString(2, paymentMethod);
+        preparedStatement.setString(3, paymentStatus);
+        preparedStatement.setDate(4, new java.sql.Date(paymentDate.getTime()));
+
+        // Execute the query
+        preparedStatement.executeUpdate();
+
+        // Step 6: Confirm the payment was saved successfully
+        JOptionPane.showMessageDialog(this, "Payment record saved successfully!");
         
+        populatePaymentTable();
+
+        // Optional: Clear the form fields after saving
+        clearPaymentFields();
+
+    } catch (SQLException ex) {
+        // Handle SQL exception
+        JOptionPane.showMessageDialog(this, "Error saving payment record: " + ex.getMessage());
+        }
     }//GEN-LAST:event_savePayActionPerformed
 
+    // Method to populate the payment table with the latest payment records
+    private void populatePaymentTable() {
+        try {
+        // SQL query to fetch payment data
+        String query = "SELECT p.PaymentID, pt.PatientName, p.PaymentMethod, p.PaymentStatus, " +
+                       "p.TotalBill, p.PaymentDate " +
+                       "FROM payment p " +
+                       "JOIN patient pt ON p.PatientID = pt.PatientID";
+
+        PreparedStatement preparedStatement = con_Pay.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        // Get the table model
+        DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
+        model.setRowCount(0); // Clear existing rows
+
+        // Populate the table with fetched data
+        while (resultSet.next()) {
+            model.addRow(new Object[]{
+                resultSet.getInt("PaymentID"),      // Payment ID
+                resultSet.getString("PatientName"), // Patient Name
+                resultSet.getString("PaymentMethod"), // Payment Method
+                resultSet.getDouble("TotalBill"), // Payment Status
+                resultSet.getString("PaymentStatus"),    // Total Bill
+                resultSet.getDate("PaymentDate")     // Payment Date
+            });
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error loading payment table: " + ex.getMessage());
+    }
+}
+
+    
+    
+    private void clearPaymentFields() {
+    namePay.setSelectedItem(null);
+    payMed.setSelectedItem(null);
+    statusPay.setSelectedItem(null);
+    paymentDate.setDate(null);
+}
+    private int getPatientID(String patientName) {
+    int patientID = -1;
+    try {
+        String query = "SELECT PatientID FROM patient WHERE PatientName = ?";
+        PreparedStatement preparedStatement = con_Pay.prepareStatement(query);
+        preparedStatement.setString(1, patientName);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            patientID = resultSet.getInt("PatientID");
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error fetching Patient ID: " + ex.getMessage());
+    }
+    return patientID;
+}
     /**
      * @param args the command line arguments
      */
@@ -421,7 +561,7 @@ public class Payment extends javax.swing.JFrame {
     private javax.swing.JButton appointButton;
     private javax.swing.JButton clearPay;
     private javax.swing.JButton deletePayRec;
-    private javax.swing.JButton editPay;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
