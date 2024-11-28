@@ -91,10 +91,7 @@
                                   <Component id="savePay" min="-2" pref="90" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                          <Component id="jLabel1" min="-2" pref="116" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="jLabel1" min="-2" pref="116" max="-2" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Component id="deletePayRec" min="-2" pref="90" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -147,9 +144,9 @@
                       <Component id="deletePayRec" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="clearPay" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jScrollPane2" min="-2" pref="304" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -221,8 +218,8 @@
                     <Column editable="true" title="Patient Name" type="java.lang.Object"/>
                     <Column editable="true" title="Payment Method" type="java.lang.Object"/>
                     <Column editable="true" title="Total Bill" type="java.lang.Object"/>
-                    <Column editable="true" title="Status" type="java.lang.Object"/>
                     <Column editable="true" title="Date" type="java.lang.Object"/>
+                    <Column editable="true" title="Status" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">

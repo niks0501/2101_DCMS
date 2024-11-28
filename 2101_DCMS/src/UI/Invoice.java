@@ -2,19 +2,118 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
+import Controller_Connector.DBConnect_Main;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.sql.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author christian
  */
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 public class Invoice extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Invoice
-     */
+    DBConnect_Main dbc_Invoice = new DBConnect_Main();
+    private Connection con_Invoice;
+    
     public Invoice() {
         initComponents();
+        loadAppointedPatients();
+        con_Invoice = dbc_Invoice.getConnection();
+        
     }
+    
+    
+    private double calculateTotalBill(int patientID) {
+    double totalBill = 0.0;
+
+    // Assuming you have a database connection named 'con_Pay'
+    try {
+        String query = "SELECT t.CostOfTreatment, pr.PrescriptionCost, pr.PrescriptionQuantity, i.selling_price " +
+                       "FROM prescription pr " +
+                       "JOIN treatment t ON pr.TreatmentID = t.TreatmentID " +
+                       "LEFT JOIN prescription_items pi ON pr.PrescriptionID = pi.PrescriptionID " +
+                       "LEFT JOIN inventory i ON pi.item_id = i.item_id " +
+                       "WHERE pr.PatientID = ?";
+
+        PreparedStatement preparedStatement = con_Invoice.prepareStatement(query);
+        preparedStatement.setInt(1, patientID);
+
+        ResultSet rs = preparedStatement.executeQuery();
+
+        while (rs.next()) {
+            double costOfTreatment = rs.getDouble("CostOfTreatment");
+            double prescriptionCost = rs.getDouble("PrescriptionCost");
+            int prescriptionQuantity = rs.getInt("PrescriptionQuantity");
+            double sellingPrice = rs.getDouble("selling_price");
+
+            totalBill += costOfTreatment + (prescriptionCost * prescriptionQuantity) + sellingPrice;
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error calculating total bill: " + ex.getMessage());
+        ex.printStackTrace();  // For debugging
+    }
+
+    return totalBill;
+}
+
+    private void loadAppointedPatients() {
+    try {
+        String query = "SELECT pt.PatientID, pt.PatientName, pt.Address, pt.ContactNumber " +
+                       "FROM patient pt " +
+                       "WHERE pt.Appointed = true"; // Assuming there's an 'Appointed' column to indicate appointment status
+
+        Statement statement = con_Invoice.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+
+        DefaultTableModel model = (DefaultTableModel) List_of_Patients.getModel();
+        model.setRowCount(0); // Clear table
+
+        while (resultSet.next()) {
+            model.addRow(new Object[]{
+                resultSet.getInt("PatientID"),        // Patient ID
+                resultSet.getString("PatientName"),   // Patient Name
+                resultSet.getString("Address"),       // Address
+                resultSet.getString("ContactNumber")  // Contact Number
+            });
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error loading appointed patients: " + ex.getMessage());
+        ex.printStackTrace(); // For debugging
+    }
+}
+    
+    private void displayInvoice(String patientName, String address, String contactNumber, double totalBill) {
+    JFrame invoiceFrame = new JFrame("Invoice");
+    invoiceFrame.setSize(400, 300);
+    invoiceFrame.setLayout(new BorderLayout());
+
+    JPanel panel = new JPanel(new GridLayout(5, 2));
+
+    panel.add(new JLabel("Patient Name:"));
+    panel.add(new JLabel(patientName));
+    panel.add(new JLabel("Address:"));
+    panel.add(new JLabel(address));
+    panel.add(new JLabel("Contact Number:"));
+    panel.add(new JLabel(contactNumber));
+    panel.add(new JLabel("Total Bill:"));
+    panel.add(new JLabel(String.format("%.2f", totalBill)));
+
+    invoiceFrame.add(panel, BorderLayout.CENTER);
+
+    invoiceFrame.setVisible(true);
+}
+
+
+    
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,7 +136,7 @@ public class Invoice extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        List_of_Patients = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -176,7 +275,7 @@ public class Invoice extends javax.swing.JFrame {
                 .addComponent(prescripButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(prescripButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(230, Short.MAX_VALUE))
         );
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -190,7 +289,7 @@ public class Invoice extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(153, 0, 0));
         jLabel5.setText("Patients Invoice");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        List_of_Patients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
                 {null},
@@ -207,7 +306,7 @@ public class Invoice extends javax.swing.JFrame {
                 "List Of Patients"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(List_of_Patients);
 
         jButton1.setBackground(new java.awt.Color(204, 255, 255));
         jButton1.setFont(new java.awt.Font("Segoe UI Black", 1, 12)); // NOI18N
@@ -223,6 +322,7 @@ public class Invoice extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+<<<<<<< Updated upstream:2101_DCMS/src/Invoice.java
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -232,6 +332,17 @@ public class Invoice extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45))))
+=======
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+>>>>>>> Stashed changes:2101_DCMS/src/UI/Invoice.java
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,9 +353,11 @@ public class Invoice extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(137, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -316,6 +429,7 @@ public class Invoice extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable List_of_Patients;
     private javax.swing.JButton appointButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;
@@ -323,7 +437,6 @@ public class Invoice extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton patientButton;
     private javax.swing.JButton prescripButton;
     private javax.swing.JButton prescripButton1;
