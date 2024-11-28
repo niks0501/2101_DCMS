@@ -203,8 +203,6 @@ private double calculateTotalBill(String patientName) {
         prescripButton = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         prescripButton1 = new javax.swing.JButton();
-        prescripButton4 = new javax.swing.JButton();
-        prescripButton5 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -357,30 +355,6 @@ private double calculateTotalBill(String patientName) {
             }
         });
 
-        prescripButton4.setBackground(java.awt.Color.red);
-        prescripButton4.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
-        prescripButton4.setForeground(new java.awt.Color(255, 255, 255));
-        prescripButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/4862191.png"))); // NOI18N
-        prescripButton4.setText("Invoice");
-        prescripButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        prescripButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prescripButton4ActionPerformed(evt);
-            }
-        });
-
-        prescripButton5.setBackground(java.awt.Color.red);
-        prescripButton5.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
-        prescripButton5.setForeground(new java.awt.Color(255, 255, 255));
-        prescripButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/Medical record.png"))); // NOI18N
-        prescripButton5.setText("Medical Record");
-        prescripButton5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        prescripButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prescripButton5ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -399,12 +373,7 @@ private double calculateTotalBill(String patientName) {
                         .addComponent(jLabel10))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(prescripButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(prescripButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(prescripButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(prescripButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -421,10 +390,6 @@ private double calculateTotalBill(String patientName) {
                 .addComponent(prescripButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(prescripButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(prescripButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(prescripButton5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -533,47 +498,7 @@ private double calculateTotalBill(String patientName) {
     }//GEN-LAST:event_editPayActionPerformed
 
     private void deletePayRecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletePayRecActionPerformed
-        int selectedRow = paymentTable.getSelectedRow();
-    
-    // If no row is selected, show an error message
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Please select a record to delete.");
-        return;
-    }
-    
-    // Get the PaymentID of the selected record (assuming it's in the first column of the table)
-    int paymentID = (int) paymentTable.getValueAt(selectedRow, 0); 
-    
-    // Ask the user for confirmation before deleting the record
-    int confirmDelete = JOptionPane.showConfirmDialog(this, 
-        "Are you sure you want to delete this payment record?", 
-        "Confirm Deletion", 
-        JOptionPane.YES_NO_OPTION);
-    
-    if (confirmDelete == JOptionPane.YES_OPTION) {
-        try {
-            // SQL query to delete the payment record by PaymentID
-            String query = "DELETE FROM payment WHERE PaymentID = ?";
-            
-            // Create the PreparedStatement and set the PaymentID
-            PreparedStatement preparedStatement = con_Pay.prepareStatement(query);
-            preparedStatement.setInt(1, paymentID);
-            
-            // Execute the delete operation
-            int rowsAffected = preparedStatement.executeUpdate();
-            
-            // If rowsAffected > 0, the record was deleted successfully
-            if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(this, "Payment record deleted successfully.");
-                // Reload the payment table to reflect the changes
-                loadPaymentTable();
-            } else {
-                JOptionPane.showMessageDialog(this, "No record found with the specified PaymentID.");
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error deleting payment record: " + ex.getMessage());
-        }
-        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_deletePayRecActionPerformed
 
     private void clearPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearPayActionPerformed
@@ -623,26 +548,9 @@ private double calculateTotalBill(String patientName) {
     double totalBill = calculateTotalBill(patientName);  // Pass PatientID to calculate the bill
 
     try {
-<<<<<<< Updated upstream
-        // Step 3: Fetch PatientID from the database based on selected PatientName
-        int patientID = getPatientID(patientName); // This method fetches the PatientID based on the name
-
-        if (patientID == -1) {
-            JOptionPane.showMessageDialog(this, "Patient not found.");
-            return; // Exit if the patient is not found
-        }
-
-        // Step 4: Calculate the total bill for the selected patient
-        //double totalBill = calculateTotalBill(patientID);
-
-        // Step 5: Insert payment record into the payment table
-        String query = "INSERT INTO payment (PaymentID, PatientID, PaymentMethod,  PaymentStatus, PaymentDate) " +
-                       "VALUES (NULL, ?, ?, ?, ?)";
-=======
         // SQL query to insert data into the payment table
         String query = "INSERT INTO payment (PatientID, PaymentMethod, PaymentStatus, PaymentDate, TotalBill) " +
                        "VALUES (?, ?, ?, ?, ?)";
->>>>>>> Stashed changes
 
         // Prepare and execute the query
         PreparedStatement preparedStatement = con_Pay.prepareStatement(query);
@@ -664,88 +572,6 @@ private double calculateTotalBill(String patientName) {
         }
     }//GEN-LAST:event_savePayActionPerformed
 
-<<<<<<< Updated upstream
-    private void prescripButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_prescripButton4ActionPerformed
-
-    private void prescripButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_prescripButton5ActionPerformed
-
-    // Method to populate the payment table with the latest payment records
-    private void populatePaymentTable() {
-    try {
-        // SQL query to fetch payment data
-        String query = "SELECT p.PaymentID, pt.PatientName, p.PaymentMethod, p.PaymentStatus, " +
-                       "p.TotalBill, p.PaymentDate " +
-                       "FROM payment p " +
-                       "JOIN patient pt ON p.PatientID = pt.PatientID";
-
-        // Print the query for debugging
-        System.out.println("Executing query: " + query);
-
-        PreparedStatement preparedStatement = con_Pay.prepareStatement(query);
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        // Get the table model
-        DefaultTableModel model = (DefaultTableModel) paymentTable.getModel();
-        model.setRowCount(0); // Clear existing rows
-
-        // Populate the table with fetched data
-        while (resultSet.next()) {
-            // Print each row for debugging
-            System.out.println("PaymentID: " + resultSet.getInt("PaymentID"));
-            System.out.println("PatientName: " + resultSet.getString("PatientName"));
-            System.out.println("PaymentMethod: " + resultSet.getString("PaymentMethod"));
-            System.out.println("TotalBill: " + resultSet.getDouble("TotalBill"));
-            System.out.println("PaymentStatus: " + resultSet.getString("PaymentStatus"));
-            System.out.println("PaymentDate: " + resultSet.getDate("PaymentDate"));
-
-            model.addRow(new Object[]{
-                resultSet.getInt("PaymentID"),      // Payment ID
-                resultSet.getString("PatientName"), // Patient Name
-                resultSet.getString("PaymentMethod"), // Payment Method
-                resultSet.getDouble("TotalBill"), // Total Bill
-                resultSet.getString("PaymentStatus"),    // Payment Status
-                resultSet.getDate("PaymentDate")     // Payment Date
-            });
-        }
-
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Error loading payment table: " + ex.getMessage());
-        ex.printStackTrace();
-    }
-}
-
-
-
-    
-    
-    private void clearPaymentFields() {
-    namePay.setSelectedItem(null);
-    payMed.setSelectedItem(null);
-    statusPay.setSelectedItem(null);
-    paymentDate.setDate(null);
-}
-    private int getPatientID(String patientName) {
-    int patientID = -1;
-    try {
-        String query = "SELECT PatientID FROM patient WHERE PatientName = ?";
-        PreparedStatement preparedStatement = con_Pay.prepareStatement(query);
-        preparedStatement.setString(1, patientName);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            patientID = resultSet.getInt("PatientID");
-        }
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Error fetching Patient ID: " + ex.getMessage());
-    }
-    return patientID;
-}
-=======
->>>>>>> Stashed changes
     /**
      * @param args the command line arguments
      */
@@ -802,8 +628,6 @@ private double calculateTotalBill(String patientName) {
     private javax.swing.JTable paymentTable;
     private javax.swing.JButton prescripButton;
     private javax.swing.JButton prescripButton1;
-    private javax.swing.JButton prescripButton4;
-    private javax.swing.JButton prescripButton5;
     private javax.swing.JButton savePay;
     private javax.swing.JComboBox<String> statusPay;
     private javax.swing.JButton treatmentButton;
