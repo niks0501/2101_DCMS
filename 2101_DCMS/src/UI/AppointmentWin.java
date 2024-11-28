@@ -119,6 +119,9 @@ public class AppointmentWin extends javax.swing.JFrame {
         prescripButton2 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         prescripButton3 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        prescripButton4 = new javax.swing.JButton();
+        prescripButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(892, 574));
@@ -270,8 +273,6 @@ public class AppointmentWin extends javax.swing.JFrame {
             }
         });
 
-        jLabel11.setIcon(new javax.swing.ImageIcon("C:\\Users\\Nikko\\Documents\\Java DCMS icons\\prevention.png")); // NOI18N
-
         prescripButton3.setBackground(java.awt.Color.red);
         prescripButton3.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
         prescripButton3.setForeground(new java.awt.Color(255, 255, 255));
@@ -281,6 +282,32 @@ public class AppointmentWin extends javax.swing.JFrame {
         prescripButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 prescripButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/prevention.png"))); // NOI18N
+
+        prescripButton4.setBackground(java.awt.Color.red);
+        prescripButton4.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
+        prescripButton4.setForeground(new java.awt.Color(255, 255, 255));
+        prescripButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/4862191.png"))); // NOI18N
+        prescripButton4.setText("Invoice");
+        prescripButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        prescripButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prescripButton4ActionPerformed(evt);
+            }
+        });
+
+        prescripButton5.setBackground(java.awt.Color.red);
+        prescripButton5.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
+        prescripButton5.setForeground(new java.awt.Color(255, 255, 255));
+        prescripButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/Medical record.png"))); // NOI18N
+        prescripButton5.setText("Medical Record");
+        prescripButton5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        prescripButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prescripButton5ActionPerformed(evt);
             }
         });
 
@@ -302,14 +329,24 @@ public class AppointmentWin extends javax.swing.JFrame {
                         .addComponent(jLabel11))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(prescripButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(prescripButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabel10))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(prescripButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(prescripButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(patientButton1)
                 .addGap(9, 9, 9)
                 .addComponent(appointButton1)
@@ -319,6 +356,10 @@ public class AppointmentWin extends javax.swing.JFrame {
                 .addComponent(prescripButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(prescripButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(prescripButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(prescripButton5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -611,6 +652,17 @@ public class AppointmentWin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_editAppointActionPerformed
 
+    private void prescripButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton4ActionPerformed
+       close();
+        Prescriptions prescriptionsWindow = new Prescriptions();
+        prescriptionsWindow.setVisible(true);
+   
+    }//GEN-LAST:event_prescripButton4ActionPerformed
+
+    private void prescripButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_prescripButton5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -699,6 +751,7 @@ public class AppointmentWin extends javax.swing.JFrame {
     private javax.swing.JButton deleteAppoint;
     private javax.swing.JButton editAppoint;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -712,9 +765,18 @@ public class AppointmentWin extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> patientChoose;
     private javax.swing.JButton prescripButton2;
     private javax.swing.JButton prescripButton3;
+    private javax.swing.JButton prescripButton4;
+    private javax.swing.JButton prescripButton5;
     private javax.swing.JButton saveAppoint;
     private javax.swing.JComboBox<String> schedTime;
     private javax.swing.JComboBox<String> treatment;
     private javax.swing.JButton treatmentButton1;
     // End of variables declaration//GEN-END:variables
+
+    public void close() {
+    // Close the current JFrame (if needed)
+    this.setVisible(false); // Hide the frame
+    this.dispose();         // Release resources
+}
+
 }

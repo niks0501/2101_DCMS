@@ -21,7 +21,7 @@ public class DBConnect {
         try {
             // Correct way to get a connection using DriverManager
             con = DriverManager.getConnection(url, user, password);
-            JOptionPane.showMessageDialog(null, "Connected successfully", "Connecting to DB", 0);
+            JOptionPane.showMessageDialog(null, "Connected successfully", "Connecting to DB", JOptionPane.INFORMATION_MESSAGE);
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Connection Error: " + e.getMessage(), "Connecting to DB", 0);
