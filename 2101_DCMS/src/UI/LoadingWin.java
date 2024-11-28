@@ -16,6 +16,10 @@ public class LoadingWin extends javax.swing.JFrame {
     public LoadingWin() {
         initComponents();
     }
+    public void updateProgress(int progress) {
+    progressBar.setValue(progress);
+    percentage.setText(progress + "%");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

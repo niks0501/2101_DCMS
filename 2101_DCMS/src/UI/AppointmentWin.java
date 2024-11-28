@@ -120,8 +120,6 @@ public class AppointmentWin extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         prescripButton3 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        prescripButton4 = new javax.swing.JButton();
-        prescripButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(892, 574));
@@ -287,30 +285,6 @@ public class AppointmentWin extends javax.swing.JFrame {
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/prevention.png"))); // NOI18N
 
-        prescripButton4.setBackground(java.awt.Color.red);
-        prescripButton4.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
-        prescripButton4.setForeground(new java.awt.Color(255, 255, 255));
-        prescripButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/4862191.png"))); // NOI18N
-        prescripButton4.setText("Invoice");
-        prescripButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        prescripButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prescripButton4ActionPerformed(evt);
-            }
-        });
-
-        prescripButton5.setBackground(java.awt.Color.red);
-        prescripButton5.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
-        prescripButton5.setForeground(new java.awt.Color(255, 255, 255));
-        prescripButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/Medical record.png"))); // NOI18N
-        prescripButton5.setText("Medical Record");
-        prescripButton5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        prescripButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prescripButton5ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -332,12 +306,7 @@ public class AppointmentWin extends javax.swing.JFrame {
                         .addComponent(prescripButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(45, 45, 45)
-                        .addComponent(jLabel10))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(prescripButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(prescripButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel10)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -356,10 +325,6 @@ public class AppointmentWin extends javax.swing.JFrame {
                 .addComponent(prescripButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(prescripButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(prescripButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(prescripButton5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -521,22 +486,37 @@ public class AppointmentWin extends javax.swing.JFrame {
 
     private void patientButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientButton1ActionPerformed
         // TODO add your handling code here:
+        close();
+        Patient patientWindow = new Patient();
+        patientWindow.setVisible(true);
     }//GEN-LAST:event_patientButton1ActionPerformed
 
     private void appointButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appointButton1ActionPerformed
         // TODO add your handling code here:
+        close();
+        AppointmentWin appointmentWindow = new AppointmentWin();
+        appointmentWindow.setVisible(true);
     }//GEN-LAST:event_appointButton1ActionPerformed
 
     private void treatmentButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treatmentButton1ActionPerformed
         // TODO add your handling code here:
+        close();
+        Treatment treatmentWindow = new Treatment();
+        treatmentWindow.setVisible(true);
     }//GEN-LAST:event_treatmentButton1ActionPerformed
 
     private void prescripButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton2ActionPerformed
         // TODO add your handling code here:
+        close();
+        Prescriptions prescriptionsWindow = new Prescriptions();
+        prescriptionsWindow.setVisible(true);
     }//GEN-LAST:event_prescripButton2ActionPerformed
 
     private void prescripButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton3ActionPerformed
         // TODO add your handling code here:
+        close();
+         Payment paymentWindow = new Payment();
+         paymentWindow.setVisible(true);
     }//GEN-LAST:event_prescripButton3ActionPerformed
 
     private void saveAppointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAppointActionPerformed
@@ -652,17 +632,6 @@ public class AppointmentWin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_editAppointActionPerformed
 
-    private void prescripButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton4ActionPerformed
-       close();
-        Prescriptions prescriptionsWindow = new Prescriptions();
-        prescriptionsWindow.setVisible(true);
-   
-    }//GEN-LAST:event_prescripButton4ActionPerformed
-
-    private void prescripButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_prescripButton5ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -765,8 +734,6 @@ public class AppointmentWin extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> patientChoose;
     private javax.swing.JButton prescripButton2;
     private javax.swing.JButton prescripButton3;
-    private javax.swing.JButton prescripButton4;
-    private javax.swing.JButton prescripButton5;
     private javax.swing.JButton saveAppoint;
     private javax.swing.JComboBox<String> schedTime;
     private javax.swing.JComboBox<String> treatment;

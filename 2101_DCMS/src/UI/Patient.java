@@ -111,8 +111,6 @@ public class Patient extends javax.swing.JFrame {
         prescripButton = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         prescripButton1 = new javax.swing.JButton();
-        prescripButton4 = new javax.swing.JButton();
-        prescripButton5 = new javax.swing.JButton();
         allergy_p = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -295,30 +293,6 @@ public class Patient extends javax.swing.JFrame {
             }
         });
 
-        prescripButton4.setBackground(java.awt.Color.red);
-        prescripButton4.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
-        prescripButton4.setForeground(new java.awt.Color(255, 255, 255));
-        prescripButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/4862191.png"))); // NOI18N
-        prescripButton4.setText("Invoice");
-        prescripButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        prescripButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prescripButton4ActionPerformed(evt);
-            }
-        });
-
-        prescripButton5.setBackground(java.awt.Color.red);
-        prescripButton5.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
-        prescripButton5.setForeground(new java.awt.Color(255, 255, 255));
-        prescripButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/Medical record.png"))); // NOI18N
-        prescripButton5.setText("Medical Record");
-        prescripButton5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        prescripButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prescripButton5ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -337,12 +311,7 @@ public class Patient extends javax.swing.JFrame {
                         .addComponent(jLabel10))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(prescripButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(prescripButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(prescripButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(prescripButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -359,10 +328,6 @@ public class Patient extends javax.swing.JFrame {
                 .addComponent(prescripButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(prescripButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(prescripButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(prescripButton5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -621,18 +586,31 @@ public class Patient extends javax.swing.JFrame {
 
     private void appointButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appointButtonActionPerformed
         // TODO add your handling code here:
+        close();
+        AppointmentWin appointmentWindow = new AppointmentWin();
+        appointmentWindow.setVisible(true);
+    
     }//GEN-LAST:event_appointButtonActionPerformed
 
     private void treatmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treatmentButtonActionPerformed
         // TODO add your handling code here:
+        close();
+        Treatment treatmentWindow = new Treatment();
+        treatmentWindow.setVisible(true);
     }//GEN-LAST:event_treatmentButtonActionPerformed
 
     private void prescripButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButtonActionPerformed
         // TODO add your handling code here:
+        close();
+        Prescriptions prescriptionsWindow = new Prescriptions();
+        prescriptionsWindow.setVisible(true);
     }//GEN-LAST:event_prescripButtonActionPerformed
 
     private void prescripButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton1ActionPerformed
         // TODO add your handling code here:
+        close();
+        Payment paymentWindow = new Payment();
+        paymentWindow.setVisible(true);
     }//GEN-LAST:event_prescripButton1ActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
@@ -672,14 +650,6 @@ public class Patient extends javax.swing.JFrame {
     private void allergy_pActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allergy_pActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_allergy_pActionPerformed
-
-    private void prescripButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_prescripButton4ActionPerformed
-
-    private void prescripButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_prescripButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -743,8 +713,6 @@ public class Patient extends javax.swing.JFrame {
     private javax.swing.JButton patientButton;
     private javax.swing.JButton prescripButton;
     private javax.swing.JButton prescripButton1;
-    private javax.swing.JButton prescripButton4;
-    private javax.swing.JButton prescripButton5;
     private javax.swing.JButton save;
     private javax.swing.JButton treatmentButton;
     // End of variables declaration//GEN-END:variables

@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Nikko/Documents/2101_DCMS/2101_DCMS/src/UI/Patient.java</file>
-            <file>file:/C:/Users/Nikko/Documents/2101_DCMS/2101_DCMS/src/UI/Inventory.java</file>
-            <file>file:/C:/Users/Nikko/Documents/2101_DCMS/2101_DCMS/src/UI/Payment.java</file>
-            <file>file:/C:/Users/Nikko/Documents/2101_DCMS/2101_DCMS/src/UI/Prescriptions.java</file>
+            <file>file:/C:/Users/christian/Documents/dcms-2101/2101_DCMS/2101_DCMS/src/InvoiceInfo.java</file>
+            <file>file:/C:/Users/christian/Documents/dcms-2101/2101_DCMS/2101_DCMS/src/UI/AppointmentWin.java</file>
+            <file>file:/C:/Users/christian/Documents/dcms-2101/2101_DCMS/2101_DCMS/src/Medical_Record.java</file>
+            <file>file:/C:/Users/christian/Documents/dcms-2101/2101_DCMS/2101_DCMS/src/UI/Dashboard.java</file>
+            <file>file:/C:/Users/christian/Documents/dcms-2101/2101_DCMS/2101_DCMS/src/UI/Invoice.java</file>
+            <file>file:/C:/Users/christian/Documents/dcms-2101/2101_DCMS/2101_DCMS/src/Invoice.java</file>
         </group>
     </open-files>
 </project-private>

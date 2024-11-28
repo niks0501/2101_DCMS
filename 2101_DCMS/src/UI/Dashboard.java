@@ -34,8 +34,6 @@ public class Dashboard extends javax.swing.JFrame {
         prescripButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         prescripButton1 = new javax.swing.JButton();
-        prescripButton4 = new javax.swing.JButton();
-        prescripButton5 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -114,30 +112,6 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        prescripButton4.setBackground(java.awt.Color.red);
-        prescripButton4.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
-        prescripButton4.setForeground(new java.awt.Color(255, 255, 255));
-        prescripButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/4862191.png"))); // NOI18N
-        prescripButton4.setText("Invoice");
-        prescripButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        prescripButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prescripButton4ActionPerformed(evt);
-            }
-        });
-
-        prescripButton5.setBackground(java.awt.Color.red);
-        prescripButton5.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
-        prescripButton5.setForeground(new java.awt.Color(255, 255, 255));
-        prescripButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Java DCMS icons/Medical record.png"))); // NOI18N
-        prescripButton5.setText("Medical Record");
-        prescripButton5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        prescripButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prescripButton5ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -156,12 +130,7 @@ public class Dashboard extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(prescripButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(prescripButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(prescripButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(prescripButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -178,10 +147,6 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(prescripButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(prescripButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(prescripButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(prescripButton5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -293,21 +258,6 @@ public class Dashboard extends javax.swing.JFrame {
         paymentWindow.setVisible(true);
     }//GEN-LAST:event_prescripButton1ActionPerformed
 
-    private void prescripButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton4ActionPerformed
-        // TODO add your handling code here:
-        close();
-        Invoice invoiceWindow = new Invoice();
-        invoiceWindow.setVisible(true);
-    }//GEN-LAST:event_prescripButton4ActionPerformed
-
-    private void prescripButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton5ActionPerformed
-        // TODO add your handling code here:
-        close();
-        Medical_Record  medical_recordWindow =  new Medical_Record ();
-        medical_recordWindow.setVisible(true);
-       
-    }//GEN-LAST:event_prescripButton5ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -355,8 +305,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton patientButton;
     private javax.swing.JButton prescripButton;
     private javax.swing.JButton prescripButton1;
-    private javax.swing.JButton prescripButton4;
-    private javax.swing.JButton prescripButton5;
     private javax.swing.JButton treatmentButton;
     // End of variables declaration//GEN-END:variables
 

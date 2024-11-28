@@ -511,22 +511,37 @@ private double calculateTotalBill(String patientName) {
 
     private void patientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientButtonActionPerformed
         // TODO add your handling code here:
+        close();
+       Patient patientWindow = new Patient();
+       patientWindow.setVisible(true);
     }//GEN-LAST:event_patientButtonActionPerformed
 
     private void appointButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appointButtonActionPerformed
         // TODO add your handling code here:
+         close();
+       AppointmentWin appointmentWindow = new AppointmentWin();
+       appointmentWindow.setVisible(true);
     }//GEN-LAST:event_appointButtonActionPerformed
 
     private void treatmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treatmentButtonActionPerformed
         // TODO add your handling code here:
+        close();
+        Treatment treatmentWindow = new Treatment();
+        treatmentWindow.setVisible(true);
     }//GEN-LAST:event_treatmentButtonActionPerformed
 
     private void prescripButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButtonActionPerformed
         // TODO add your handling code here:
+        close();
+       Prescriptions prescriptionsWindow = new Prescriptions();
+       prescriptionsWindow.setVisible(true);
     }//GEN-LAST:event_prescripButtonActionPerformed
 
     private void prescripButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescripButton1ActionPerformed
         // TODO add your handling code here:
+        close();
+        Payment paymentWindow = new Payment();
+        paymentWindow.setVisible(true);
     }//GEN-LAST:event_prescripButton1ActionPerformed
 
     private void savePayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePayActionPerformed
@@ -632,4 +647,9 @@ private double calculateTotalBill(String patientName) {
     private javax.swing.JComboBox<String> statusPay;
     private javax.swing.JButton treatmentButton;
     // End of variables declaration//GEN-END:variables
+public void close() {
+    // Close the current JFrame (if needed)
+    this.setVisible(false); // Hide the frame
+    this.dispose();         // Release resources
+}
 }
